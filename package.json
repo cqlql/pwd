@@ -13,6 +13,7 @@
     "data-mock": "node ./data-mock/server.run.js"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   },
