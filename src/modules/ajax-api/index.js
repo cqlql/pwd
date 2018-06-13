@@ -1,3 +1,5 @@
+import AES from 'crypto-js/aes'
+import enc from 'crypto-js/enc-utf8'
 import Ajax from './ajax'
 // import AjaxApp from './app'
 // import answer from '@/views/ques/com/answer'
@@ -36,6 +38,12 @@ const api = {
     //   results: answer.submit,
     //   campusId: '4973983044197569754'
     // })
+  },
+  encrypt (text) {
+    return AES.encrypt(text, this.token)
+  },
+  decrypt (ciphertext) {
+    return AES.decrypt(ciphertext, this.token).toString(enc)
   }
 }
 
