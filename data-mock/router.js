@@ -84,4 +84,21 @@ router.post('/del', function (req, res) {
   })
 })
 
+router.get('/getItem', function (req, res) {
+  dataApi.getItem(req.query.id, function (err, data) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok',
+        'result': data
+      })
+    }
+  })
+})
+
 module.exports = router

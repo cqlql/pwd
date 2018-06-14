@@ -29,8 +29,11 @@ const api = {
   list () {
     return ajax.get('/list')
   },
-  getExam (data) {
-    return ajax.post('/Data/GetExam', data)
+  del (id) {
+    return ajax.post('/del', {id})
+  },
+  getItem (id) {
+    return ajax.get('/getItem', {params: {id}})
   },
   submit () {
     // console.log('提交的数据', answer.submit)
@@ -43,6 +46,7 @@ const api = {
     // })
   },
   encrypt (text) {
+    console.log(AES.encrypt(text, this.token))
     return AES.encrypt(text, this.token)
   },
   decrypt (ciphertext) {

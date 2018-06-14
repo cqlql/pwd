@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.mainContent">
     <div :class="$style.editBox">
-      <textarea :class="$style.eidt" @input="onInput">123</textarea>
+      <textarea :class="$style.eidt" @input="onInput" :value="content"></textarea>
     </div>
     <div :class="$style.preview" class="markdown-body" v-html="resultContent"></div>
   </div>
@@ -10,11 +10,12 @@
 <script>
 import marked from '@/../modules/marked.js'
 import ExcuInterval from '@/modules/corejs/excu/excu-interval.js'
-// import ajaxApi from '@/modules/ajax-api'
+import ajaxApi from '@/modules/ajax-api'
 
 export default {
   data () {
     return {
+      content: '',
       resultContent: ''
     }
   },
@@ -27,9 +28,20 @@ export default {
         // let value = target.value.replace(/\${3}(.+?)\${3}/, function (o, r) {
         //   return '$$$' + ajaxApi.encrypt(r) + '$$$'
         // })
-        this.resultContent = marked(target.value)
-        // console.log(target.value)
+
+        this.resultContent = marked(this.content = target.value)
       }, 300)
+    },
+    load (id) {
+      ajaxApi.getItem(id).then(data => {
+        data = this.content = this.decrypt(data)
+        this.resultContent = marked(data)
+      })
+    },
+    decrypt (content) {
+      return content.replace(/\${3}(.+?)\${3}/, function (o, r) {
+        return '$$$' + ajaxApi.decrypt(r) + '$$$'
+      })
     }
   }
 }
@@ -64,6 +76,7 @@ export default {
   border: 0;
   outline: none;
 
-  font: 14px/1.2 "Microsoft Yahei",sans-serif,arial,SimSun,tahoma,Srial,helvetica;
+  font: 14px/1.2 "Microsoft Yahei", sans-serif, arial, SimSun, tahoma, Srial,
+    helvetica;
 }
 </style>

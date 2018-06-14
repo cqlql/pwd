@@ -1050,7 +1050,7 @@
     return text;
   };
   Renderer.prototype.pwd = function(text) {
-    return '<span class="pwd">' + text + '</span>';
+    return '<strong class="pwd">' + text + '</strong>';
   };
 
   /**

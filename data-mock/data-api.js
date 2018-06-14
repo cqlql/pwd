@@ -97,6 +97,15 @@ const dataApi = {
         })
       }
     })
+  },
+  getItem (id, cb) {
+    fs.readFile(listPath + '/' + id, 'utf8', function (err, data) {
+      if (err) {
+        cb(err)
+      } else {
+        cb(err, data)
+      }
+    })
   }
 }
 
