@@ -1,7 +1,7 @@
 <template>
   <div v-if="isShow" :class="$style.rightClickMenu" :style="{left:left+'px',top:top+'px'}" tabindex="-1" @blur="onBlur">
       <ul>
-        <li :class="$style.item" @click="$emit('rename')">重命名</li>
+        <li :class="$style.item" @click="onClickRename">重命名</li>
         <li :class="$style.item" @click="onClickDelete">删除</li>
       </ul>
     </div>
@@ -37,6 +37,10 @@ export default {
         this.allowClose = true
         this.isShow = false
       })
+    },
+    onClickRename () {
+      this.isShow = false
+      this.$emit('rename')
     }
   },
   watch: {
@@ -57,6 +61,7 @@ export default {
   cursor: pointer;
   background-color: #fff;
   box-shadow: 2px 2px 3px 0px #b3b3b3;
+  z-index: 99;
 }
 .item {
   padding: 4px 10px;

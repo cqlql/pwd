@@ -34,6 +34,26 @@ function writeMenuFile (data, cb) {
   })
 }
 
+function findMenuItem (id, cb) {
+  readMenuFile(function (err, data) {
+    if (err) {
+      cb(err)
+      return
+    }
+    let notFound = true
+    data.some((d, i) => {
+      if (d.id === id) {
+        notFound = false
+        cb(err, data, i)
+        return true
+      }
+    })
+    if (notFound) {
+      cb(new Error('id 没有找到'))
+    }
+  })
+}
+
 const dataApi = {
   menuFilePath,
   add (name, cb) {
@@ -59,8 +79,42 @@ const dataApi = {
       })
     })
   },
-  list (cb) {
-    readMenuFile(function (err, data) {
+  editName ({id, name}, cb) {
+    findMenuItem(id, function (err, data, index) {
+      if (err) {
+        cb(err)
+        return
+      }
+      data[index].name = name
+      writeMenuFile(data, cb)
+    })
+  },
+  editContent ({id, content}, cb) {
+    fs.writeFile(listPath + '/' + id, content, 'utf8', function (err) {
+      cb(err)
+    })
+  },
+  del (id, cb) {
+    findMenuItem(id, function (err, data, index) {
+      if (err) {
+        cb(err)
+        return
+      }
+      data.splice(index, 1)
+      writeMenuFile(data, function (err) {
+        if (err) {
+          cb(err)
+          return
+        }
+
+        fs.unlink(listPath + '/' + id, function (err) {
+          cb(err)
+        })
+      })
+    })
+  },
+  getItem (id, cb) {
+    fs.readFile(listPath + '/' + id, 'utf8', function (err, data) {
       if (err) {
         cb(err)
       } else {
@@ -68,38 +122,8 @@ const dataApi = {
       }
     })
   },
-  del (id, cb) {
+  list (cb) {
     readMenuFile(function (err, data) {
-      if (err) {
-        cb(err)
-      } else {
-        let notFound = true
-        data.some((d, i) => {
-          if (d.id === id) {
-            notFound = false
-            data.splice(i, 1)
-            return true
-          }
-        })
-        if (notFound) {
-          cb(new Error('id 没有找到'))
-          return
-        }
-        writeMenuFile(data, function (err) {
-          if (err) {
-            cb(err)
-            return
-          }
-
-          fs.unlink(listPath + '/' + id, function (err) {
-            cb(err)
-          })
-        })
-      }
-    })
-  },
-  getItem (id, cb) {
-    fs.readFile(listPath + '/' + id, 'utf8', function (err, data) {
       if (err) {
         cb(err)
       } else {

@@ -11,6 +11,7 @@
 import marked from '@/../modules/marked.js'
 import ExcuInterval from '@/modules/corejs/excu/excu-interval.js'
 import ajaxApi from '@/modules/ajax-api'
+import state from './state.js'
 
 export default {
   data () {
@@ -20,15 +21,13 @@ export default {
     }
   },
   created () {
+    this.state = state
     this.excuInterval = new ExcuInterval()
   },
   methods: {
     onInput ({ target }) {
+      this.state.isEdit = true
       this.excuInterval.excu(() => {
-        // let value = target.value.replace(/\${3}(.+?)\${3}/, function (o, r) {
-        //   return '$$$' + ajaxApi.encrypt(r) + '$$$'
-        // })
-
         this.resultContent = marked(this.content = target.value)
       }, 300)
     },
@@ -61,11 +60,15 @@ export default {
 
 .editBox {
   flex: 1;
+  width: 50%;
   border-right: 1px solid #ddd;
+  box-sizing: border-box;
 }
 .preview {
   flex: 1;
+  width: 50%;
   padding: 20px;
+  box-sizing: border-box;
 }
 .eidt {
   width: 100%;

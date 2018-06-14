@@ -67,6 +67,38 @@ router.post('/add', function (req, res) {
   })
 })
 
+router.post('/editName', function (req, res) {
+  dataApi.editName(req.body, function (err) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok'
+      })
+    }
+  })
+})
+
+router.post('/editContent', function (req, res) {
+  dataApi.editContent(req.body, function (err) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok'
+      })
+    }
+  })
+})
+
 router.post('/del', function (req, res) {
   dataApi.del(req.body.id, function (err, id) {
     if (err) {

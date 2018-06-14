@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LeftMenu @select="onSelectLeftMenu"/>
+    <LeftMenu ref="vLeftMenu" @select="onSelectLeftMenu" @load="onLoadLeftMenu"/>
     <MainContent ref="vMainContent"/>
     <Login/>
   </div>
@@ -26,6 +26,13 @@ export default {
   methods: {
     onSelectLeftMenu (id) {
       this.$refs.vMainContent.load(id)
+    },
+    onLoadLeftMenu (list) {
+      this.$refs.vLeftMenu.select(0)
+      let first = list[0]
+      if (first) {
+        this.$refs.vMainContent.load(first.id)
+      }
     }
   }
 }

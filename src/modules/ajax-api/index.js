@@ -29,8 +29,14 @@ const api = {
   list () {
     return ajax.get('/list')
   },
+  add (name) {
+    return ajax.post('/add', {name})
+  },
   del (id) {
     return ajax.post('/del', {id})
+  },
+  editName (data) {
+    return ajax.post('/editName', data)
   },
   getItem (id) {
     return ajax.get('/getItem', {params: {id}})
