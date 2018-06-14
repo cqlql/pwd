@@ -36,8 +36,13 @@
 </template>
 
 <script>
+import ajaxApi from '@/modules/ajax-api'
 export default {
-
+  created () {
+    ajaxApi.list().then(data => {
+      console.log(data)
+    })
+  }
 }
 </script>
 

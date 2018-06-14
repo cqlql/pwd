@@ -1,0 +1,87 @@
+// const fs = require('fs')
+// const path = require('path')
+const SHE3 = require('crypto-js/sha3')
+const Base64 = require('crypto-js/enc-base64')
+// const uuid = require('uuid')
+// const uuidv1 = require('uuid/v1')
+const express = require('express')
+const dataApi = require('./data-api')
+const router = express.Router()
+// const dataPath = path.resolve(__dirname, './')
+
+router.get('/GetMessage', function (req, res) {
+  res.send({
+    'status': 200,
+    'message': 'ok',
+    'result': {}
+  })
+})
+
+router.post('/login', function (req, res) {
+  if (Base64.stringify(SHE3(req.body.key)) === 'pq4qaZ7OIWp5OORSJhjbYWTNbFPe+SA1OCLLqgbn98XCDgOsZdVXqr1rfrJ1d5U+2d6BPufjz93WfpwAJtRuxA==') {
+    res.send({
+      'code': 0,
+      'message': 'ok',
+      'result': {}
+    })
+  } else {
+    res.send({
+      'code': 1,
+      'message': '认证失败',
+      'result': {}
+    })
+  }
+})
+
+router.get('/list', function (req, res) {
+  dataApi.list(function (err, data) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok',
+        'result': data
+      })
+    }
+  })
+})
+
+router.post('/add', function (req, res) {
+  dataApi.add(req.body.name, function (err, id) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok',
+        'result': id
+      })
+    }
+  })
+})
+
+router.post('/del', function (req, res) {
+  dataApi.del(req.body.id, function (err, id) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok',
+        'result': id
+      })
+    }
+  })
+})
+
+module.exports = router

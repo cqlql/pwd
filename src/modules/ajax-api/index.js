@@ -9,7 +9,7 @@ import Ajax from './ajax'
 
 const ajax = new Ajax(function (data) {
   if (data.code === 0) {
-    return data.data
+    return data.result
   }
   return new Error(data.message)
 })
@@ -23,6 +23,9 @@ const api = {
       this.token = key
       localStorage.setItem('token', key)
     })
+  },
+  list () {
+    return ajax.get('/list')
   },
   getExam (data) {
     return ajax.post('/Data/GetExam', data)
