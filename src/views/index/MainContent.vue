@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.mainContent">
+  <div v-key-ctrl="onKeyCtrl" :class="$style.mainContent">
     <div :class="$style.editBox">
       <textarea :class="$style.eidt" @input="onInput" :value="content"></textarea>
     </div>
@@ -24,6 +24,28 @@ export default {
     this.state = state
     this.excuInterval = new ExcuInterval()
   },
+  directives: {
+    'key-ctrl': {
+      // 指令的定义
+      inserted (el, {value}) {
+        let ctrlDown = false
+        el.addEventListener('keydown', function (e) {
+          if (e.keyCode === 17) {
+            ctrlDown = true
+          } else if (ctrlDown) {
+            if (value(e.keyCode) === false) {
+              e.preventDefault()
+            }
+          }
+        })
+        el.addEventListener('keyup', function (e) {
+          if (e.keyCode === 17) {
+            ctrlDown = false
+          }
+        })
+      }
+    }
+  },
   methods: {
     onInput ({ target }) {
       this.state.isEdit = true
@@ -37,10 +59,23 @@ export default {
         this.resultContent = marked(data)
       })
     },
+    encrypt (content) {
+      return content.replace(/\${3}(.+?)\${3}/, function (o, r) {
+        return '$$$' + ajaxApi.encrypt(r) + '$$$'
+      })
+    },
     decrypt (content) {
       return content.replace(/\${3}(.+?)\${3}/, function (o, r) {
         return '$$$' + ajaxApi.decrypt(r) + '$$$'
       })
+    },
+    onKeyCtrl (keyCode) {
+      if (keyCode === 83) {
+        ajaxApi.editContent(this.encrypt(this.content)).then(() => {
+          state.isEdit = false
+        })
+        return false
+      }
     }
   }
 }

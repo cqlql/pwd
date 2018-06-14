@@ -18,8 +18,7 @@ const ajax = new Ajax(function (data) {
 
 const api = {
   token: '',
-  // userId: '',
-  // userName: '',
+  itemId: '',
   login (key) {
     return ajax.post('/login', {key}).then(() => {
       this.token = key
@@ -37,6 +36,12 @@ const api = {
   },
   editName (data) {
     return ajax.post('/editName', data)
+  },
+  editContent (content) {
+    return ajax.post('/editContent', {
+      id: this.itemId,
+      content
+    })
   },
   getItem (id) {
     return ajax.get('/getItem', {params: {id}})

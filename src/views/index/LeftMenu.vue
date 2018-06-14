@@ -185,6 +185,12 @@ export default {
     select (index) {
       this.selectedIndex = index
     }
+  },
+  watch: {
+    selectedIndex (index) {
+      console.log('当前选择项改变，索引：', index)
+      if (index > -1) ajaxApi.itemId = this.list[index].id
+    }
   }
 }
 </script>
