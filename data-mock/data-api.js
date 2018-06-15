@@ -1,10 +1,10 @@
 const fs = require('fs')
-const path = require('path')
+// const path = require('path')
 const uuidv1 = require('uuid/v1')
 const AES = require('crypto-js/aes')
 // const enc = require('crypto-js/enc-utf8')
-const dataPath = path.resolve(__dirname, './')
-// const dataPath = 'E:\\Dropbox\\pwd'
+// const dataPath = path.resolve(__dirname, './')
+const dataPath = 'E:\\Dropbox\\pwd'
 const menuFilePath = dataPath + '/menu.json'
 const listPath = dataPath + '/list'
 
