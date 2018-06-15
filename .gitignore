@@ -3,4 +3,6 @@ yarn.lock
 node_modules
 .vscode
 data-mock/list/
+data-mock/public
 data-mock/menu.json
+
