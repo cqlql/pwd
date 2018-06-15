@@ -19,6 +19,9 @@ const ajax = new Ajax(function (data) {
 const api = {
   token: '',
   itemId: '',
+  oldTransfer () {
+    return ajax.post('/oldTransfer', {key: this.token})
+  },
   login (key) {
     return ajax.post('/login', {key}).then(() => {
       this.token = key
@@ -46,19 +49,8 @@ const api = {
   getItem (id) {
     return ajax.get('/getItem', {params: {id}})
   },
-  submit () {
-    // console.log('提交的数据', answer.submit)
-    // return ajax.post('/Data/Submit', {
-    //   userId: this.userId,
-    //   userName: this.userName,
-    //   examId: answer.examId,
-    //   results: answer.submit,
-    //   campusId: '4973983044197569754'
-    // })
-  },
   encrypt (text) {
-    console.log(AES.encrypt(text, this.token))
-    return AES.encrypt(text, this.token)
+    return AES.encrypt(text, this.token).toString()
   },
   decrypt (ciphertext) {
     return AES.decrypt(ciphertext, this.token).toString(enc)

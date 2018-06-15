@@ -1,8 +1,8 @@
 <template>
   <div>
-    <LeftMenu ref="vLeftMenu" @select="onSelectLeftMenu" @load="onLoadLeftMenu"/>
-    <MainContent ref="vMainContent"/>
-    <Login/>
+    <LeftMenu v-if="isSuccess" ref="vLeftMenu" @select="onSelectLeftMenu" @load="onLoadLeftMenu"/>
+    <MainContent v-if="isSuccess" ref="vMainContent"/>
+    <Login @success="onLoginSuccess"/>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
   },
   data () {
     return {
+      isSuccess: false
     }
   },
   mounted () {
@@ -33,6 +34,9 @@ export default {
       if (first) {
         this.$refs.vMainContent.load(first.id)
       }
+    },
+    onLoginSuccess () {
+      this.isSuccess = true
     }
   }
 }

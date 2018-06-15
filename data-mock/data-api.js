@@ -1,7 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const uuidv1 = require('uuid/v1')
+const AES = require('crypto-js/aes')
+// const enc = require('crypto-js/enc-utf8')
 const dataPath = path.resolve(__dirname, './')
+// const dataPath = 'E:\\Dropbox\\pwd'
 const menuFilePath = dataPath + '/menu.json'
 const listPath = dataPath + '/list'
 
@@ -57,7 +60,7 @@ function findMenuItem (id, cb) {
 const dataApi = {
   menuFilePath,
   add (name, cb) {
-    this.list(function (err, data) {
+    readMenuFile(function (err, data) {
       if (err) {
         cb(err)
         return
@@ -122,15 +125,38 @@ const dataApi = {
       }
     })
   },
-  list (cb) {
-    readMenuFile(function (err, data) {
+  oldTransfer (key, cb) {
+    this.token = key
+    fs.readFile('E:\\github\\cqlql.github.io\\demo\\20170307_password\\data.json', 'utf8', (err, data) => {
       if (err) {
         cb(err)
       } else {
-        cb(err, data)
+        data = JSON.parse(data)
+        let excu = () => {
+          let d = data.shift()
+          if (!d) return
+          dataApi.add(this.encrypt(d.name), (err, id) => {
+            if (err) {
+              console.log(err)
+              return
+            }
+
+            dataApi.editContent({
+              id,
+              content: `${d.des}\n\n$$$${d.pw}$$$`
+            }, () => {})
+            excu()
+          })
+        }
+        excu()
+        cb()
       }
     })
-  }
+  },
+  encrypt (text) {
+    return AES.encrypt(text, this.token).toString()
+  },
+  readMenuFile
 }
 
 module.exports = dataApi

@@ -3,8 +3,8 @@ import '@/comm.css'
 
 // import '@/modules/corejs/em-auto'
 import Vue from 'vue'
-import router from './router'
-import App from './App.vue'
+// import router from './router'
+import App from '@/views/index'
 
 // import click from '@/modules/corejs/dom/click.vue'
 // import axios from '@/modules/ajax-mid'
@@ -18,25 +18,25 @@ Vue.use(Toast)
 Vue.use(Confirm)
 // Vue.use(click)
 // Vue.prototype.$axios = axios
-const loading = Vue.loading
+// const loading = Vue.loading
 
-Vue.prototype.bus = new Vue({
-  data: {}
-})
+// Vue.prototype.bus = new Vue({
+//   data: {}
+// })
 
-router.beforeEach((to, from, next) => {
-  loading.show()
-  document.title = to.meta.title || ''
-  next()
-})
-router.afterEach(() => {
-  loading.hide()
-})
+// router.beforeEach((to, from, next) => {
+//   loading.show()
+//   document.title = to.meta.title || ''
+//   next()
+// })
+// router.afterEach(() => {
+//   loading.hide()
+// })
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  // router,
   // 根实例用可实现替换绑定的元素
   template: '<app/>',
   components: {

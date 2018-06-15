@@ -34,7 +34,7 @@ router.post('/login', function (req, res) {
 })
 
 router.get('/list', function (req, res) {
-  dataApi.list(function (err, data) {
+  dataApi.readMenuFile(function (err, data) {
     if (err) {
       res.send({
         'code': 1,
@@ -128,6 +128,21 @@ router.get('/getItem', function (req, res) {
         'code': 0,
         'message': 'ok',
         'result': data
+      })
+    }
+  })
+})
+router.post('/oldTransfer', function (req, res) {
+  dataApi.oldTransfer(req.body.key, function (err) {
+    if (err) {
+      res.send({
+        'code': 1,
+        'message': err.message
+      })
+    } else {
+      res.send({
+        'code': 0,
+        'message': 'ok'
       })
     }
   })

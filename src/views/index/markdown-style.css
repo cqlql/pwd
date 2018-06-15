@@ -421,6 +421,10 @@
     border-top: 0
 }
 
+.markdown-body .pwd {
+  color: #aaa;
+}
+
 /* code {
     margin-top: 0;
     margin-bottom: 0;

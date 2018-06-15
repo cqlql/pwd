@@ -23,13 +23,14 @@ export default {
   created () {
     if (ajaxApi.token) {
       this.initIsShow = false
+      this.$emit('success')
     }
   },
   methods: {
     onKeyupEnter () {
       ajaxApi.login(this.key).then(() => {
         this.$refs.vPopup.isShow = false
-        this.isShowLogin = false
+        this.$emit('success')
       })
     },
     onInputValue (v) {

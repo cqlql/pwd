@@ -1,13 +1,14 @@
 <template>
   <div :class="insideIsEdit&&$style.edit">
-    <div v-if="insideIsEdit">
-      <input ref="eInput" type="text" @input="onInput" :value=value>
+    <div v-if="insideIsEdit" :class="$style.editItme">
+      <input :class="$style.editInput" ref="eInput" type="text" @input="onInput" :value=value>
     </div>
-    <div v-else :class="[$style.itme,active&&$style.active,selected&&$style.selected]">{{d.name}}</div>
+    <div v-else :class="[$style.itme,active&&$style.active,selected&&$style.selected]">{{name}}</div>
   </div>
 </template>
 
 <script>
+import ajaxApi from '@/modules/ajax-api'
 export default {
   props: {
     isEdit: Boolean,
@@ -21,6 +22,11 @@ export default {
       insideIsEdit: this.isEdit
     }
   },
+  computed: {
+    name () {
+      return ajaxApi.decrypt(this.d.name)
+    }
+  },
   mounted () {
     this.insideIsEdit && this.focus()
   },
@@ -32,7 +38,7 @@ export default {
       this.$refs.eInput.focus()
     },
     toEdit () {
-      this.value = this.d.name
+      this.value = ajaxApi.decrypt(this.d.name)
       this.insideIsEdit = true
       this.$nextTick(() => {
         this.focus()
@@ -66,5 +72,15 @@ export default {
 .edit {
   position: relative;
   z-index: 99;
+}
+.editItme {
+  padding: 6px 10px;
+  background-color: #e4e4e4;
+}
+.editInput {
+  box-sizing: border-box;
+  height: 20px;
+  display: block;
+  width: 100%;
 }
 </style>

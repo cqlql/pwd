@@ -34,9 +34,9 @@ export default {
     let listCont
     if (list) {
       if (isAdd || list.length) {
-        let items = isAdd ? [<LeftItem isEdit ref="vAddItem"/>] : []
+        let items = isAdd ? [<LeftItem isEdit ref="vAddItem" />] : []
         list.forEach((item, i) => {
-          items.push(<LeftItem key={item.id} ref={i} data-index={i} d={item} active={deleteIndex * 1 === i} selected={selectedIndex * 1 === i}/>)
+          items.push(<LeftItem key={item.id} ref={i} data-index={i} d={item} active={deleteIndex * 1 === i} selected={selectedIndex * 1 === i} />)
         })
         listCont = (
           <div class={$style.listCont}>{items}</div>
@@ -52,12 +52,10 @@ export default {
 
     return (
       <div class={$style.typeMenu}>
-        <div class={$style.topBar}>
-          <a href="javascript:;" onClick={this.onAddMode}>add</a>
-        </div>
-        <div class={$style.list} onContextmenu={this.onContextmenu} onClick={this.onClickSelect} onKeyup={({keyCode}) => { keyCode === 13 && this.onSave() }}>{listCont}</div>
-        <RightClickMenu ref="vRightClickMenu" onRename={this.onRename} onDelete={this.onDelete} onClose={this.onClose}/>
-        {(isAdd || isEdit) && <VMask onClick={this.onSave}/>}
+        <div class={$style.topBar} onClick={this.onAddMode}></div>
+        <div class={$style.list} onContextmenu={this.onContextmenu} onClick={this.onClickSelect} onKeyup={({ keyCode }) => { keyCode === 13 && this.onSave() }}>{listCont}</div>
+        <RightClickMenu ref="vRightClickMenu" onRename={this.onRename} onDelete={this.onDelete} onClose={this.onClose} />
+        {(isAdd || isEdit) && <VMask onClick={this.onSave} />}
       </div>
     )
   },
@@ -112,28 +110,24 @@ export default {
     onClose () {
       this.deleteIndex = -1
     },
-    onClickSelect ({target}) {
+    onClickSelect ({ target }) {
       this.findItemIndex(target, index => {
         if (this.selectedIndex !== index) {
-          const excu = () => {
+          this.safetyEditExcu(() => {
             this.selectedIndex = index
             this.$emit('select', this.$refs[index].d.id)
             state.isEdit = false
-          }
-          if (state.isEdit) {
-            this.$confirm('未保存，确定离开？', excu)
-          } else {
-            excu()
-          }
+          })
         }
       })
     },
     onSave () {
       if (this.isAdd) {
         // 新增
-        let {value} = this.$refs.vAddItem
+        let { value } = this.$refs.vAddItem
         value = value.trim()
         if (value) {
+          value = ajaxApi.encrypt(value)
           ajaxApi.add(value).then(id => {
             this.isAdd = false
             this.$toast.success('新增成功')
@@ -142,6 +136,7 @@ export default {
               name: value
             })
             this.$emit('load', this.list)
+            state.isEdit = false
           })
         } else {
           this.isAdd = false
@@ -150,8 +145,8 @@ export default {
         // 修改名称
         let index = this.editIndex
         let vItem = this.$refs[index]
-        let {value} = vItem
-        value = value.trim()
+        let { value } = vItem
+        value = ajaxApi.encrypt(value.trim())
         if (value !== vItem.d.name) {
           ajaxApi.editName({
             id: vItem.d.id,
@@ -169,7 +164,9 @@ export default {
       }
     },
     onAddMode () {
-      this.isAdd = true
+      this.safetyEditExcu(() => {
+        this.isAdd = true
+      })
     },
     findItemIndex (elem, cb) {
       const sList = this.$style.list
@@ -184,12 +181,14 @@ export default {
     },
     select (index) {
       this.selectedIndex = index
-    }
-  },
-  watch: {
-    selectedIndex (index) {
-      console.log('当前选择项改变，索引：', index)
-      if (index > -1) ajaxApi.itemId = this.list[index].id
+    },
+    // 编辑状态安全执行
+    safetyEditExcu (excu) {
+      if (state.isEdit) {
+        this.$confirm('未保存，确定离开？', excu)
+      } else {
+        excu()
+      }
     }
   }
 }
@@ -207,14 +206,30 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 1;
-  /* overflow: auto; */
 }
 .topBar {
+  /* padding: 4px 10px; */
+  /* text-align: right; */
+  height: 10px;
+  background: #ddd;
 }
+.topBar:hover {
+  background: #aaa;
+}
+/* .addBtn {
+  border: 1px solid #f7f7f7;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  display: inline-block;
+}
+.addBtn:hover {
+  border: 1px solid #ea0000;
+} */
 .list {
   border-top: 1px solid #efefef;
   position: absolute;
-  top: 26px;
+  top: 10px;
   bottom: 0;
   width: 100%;
   overflow: auto;
@@ -223,5 +238,12 @@ export default {
 .listCont {
   list-style-type: none;
 }
-
+.noData {
+  text-align: center;
+  padding: 10px;
+}
+.noData a {
+  color: #ea0000;
+  text-decoration: underline;
+}
 </style>

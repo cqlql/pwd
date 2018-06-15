@@ -1,9 +1,13 @@
 <template>
-  <div v-key-ctrl="onKeyCtrl" :class="$style.mainContent">
-    <div :class="$style.editBox">
-      <textarea :class="$style.eidt" @input="onInput" :value="content"></textarea>
+  <div v-key-ctrl="onKeyCtrl" :class="$style.main">
+    <!-- <MainContentTopBar v-if="topBarIsShow" @preview="onPreview" @edit="onEditMode"/> -->
+    <div :class="$style.closeBarBtn" @click="topBarIsShow=!topBarIsShow"></div>
+    <div :class="$style.mainContent">
+      <div :class="$style.editBox" v-if="topBarIsShow">
+        <textarea :class="$style.eidt" @input="onInput" :value="content"></textarea>
+      </div>
+      <div :class="$style.preview" class="markdown-body" v-html="resultContent"></div>
     </div>
-    <div :class="$style.preview" class="markdown-body" v-html="resultContent"></div>
   </div>
 </template>
 
@@ -12,10 +16,16 @@ import marked from '@/../modules/marked.js'
 import ExcuInterval from '@/modules/corejs/excu/excu-interval.js'
 import ajaxApi from '@/modules/ajax-api'
 import state from './state.js'
+// import MainContentTopBar from './MainContentTopBar'
 
 export default {
+  // components: {
+  //   MainContentTopBar
+  // },
   data () {
     return {
+      topBarIsShow: false,
+      // showMode: 0,
       content: '',
       resultContent: ''
     }
@@ -27,7 +37,7 @@ export default {
   directives: {
     'key-ctrl': {
       // 指令的定义
-      inserted (el, {value}) {
+      inserted (el, { value }) {
         let ctrlDown = false
         el.addEventListener('keydown', function (e) {
           if (e.keyCode === 17) {
@@ -57,6 +67,7 @@ export default {
       ajaxApi.getItem(id).then(data => {
         data = this.content = this.decrypt(data)
         this.resultContent = marked(data)
+        ajaxApi.itemId = id
       })
     },
     encrypt (content) {
@@ -77,6 +88,12 @@ export default {
         return false
       }
     }
+    // onPreview () {
+    //   this.showMode = 0
+    // },
+    // onEditMode () {
+    //   this.showMode = 1
+    // }
   }
 }
 </script>
@@ -84,13 +101,22 @@ export default {
 <style src="./markdown-style.css"></style>
 
 <style module>
-.mainContent {
+.main {
   position: fixed;
-  display: flex;
   left: 200px;
   right: 0;
   top: 0;
   bottom: 0;
+}
+.closeBarBtn {
+  border-top: 10px solid #ddd;
+}
+.closeBarBtn:hover {
+  border-color: #aaa;
+}
+.mainContent {
+  display: flex;
+  height: 100%;
 }
 
 .editBox {

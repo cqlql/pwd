@@ -4,7 +4,7 @@ webpackConfig.entry.main = ['@/components/debug-msg/w.js'].concat(webpackConfig.
 // proxy 文档：https://github.com/chimurai/http-proxy-middleware
 webpackConfig.devServer.proxy = [{
   context: ["/api"],
-  target: "http://192.168.1.111:3003",
+  target: "http://192.168.1.222:3000",
   // pathRewrite: {
   //   '^/mock': ''
   // },

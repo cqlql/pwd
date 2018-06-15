@@ -1079,6 +1079,10 @@
     return '';
   }
 
+  TextRenderer.prototype.pwd = function(text) {
+    return '<strong class="pwd">' + text + '</strong>';
+  }
+
   /**
    * Parsing & Compiling
    */

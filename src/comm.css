@@ -19,6 +19,7 @@ p{margin: 0;}
 table {border-collapse: collapse;}
 ol,ul{list-style-type:none;padding:0;margin:0;}
 h1,h2,h3,h4,h5,h6{margin:0;font-size:inherit;font-weight:normal;}
+a{color:#333;text-decoration:none;}
 
 html {
   font-size: 100px;

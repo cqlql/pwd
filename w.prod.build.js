@@ -26,7 +26,7 @@ const prodConfig = {
   // 键为 import 调用名，值为全局名称
   externals: {
     'vue': 'Vue',
-    'vue-router': 'VueRouter'
+    // 'vue-router': 'VueRouter'
   },
   output: {
     path: outputPath
@@ -45,20 +45,21 @@ const prodConfig = {
       },
       done () {
         // 编译后删除
+        filterRemove(outputPath, /^js$/)
         // filterRemove(outputPath, /\.(css)$/)
         // filterRemove(outputPath + '/static', /\.(js|css)$/)
       }
     }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, 'node_modules/vue-router/dist/vue-router.min.js'),
-        to: path.resolve(outputPath, 'js/vue-router.min.js'),
+        from: path.resolve(__dirname, 'dist/index.html'),
+        to: path.resolve(__dirname, 'data-mock/public/index.html'),
       }
     ]),
     // 添加指定的 cdn 包。或者指定路径的包也行
     new ScriptPlugin([
-      'http://p2y63v1s4.bkt.clouddn.com/vue/2.5.13/vue.min.js',
-      'js/vue-router.min.js', // 配合 copy-webpack-plugin 使用
+      'https://unpkg.com/vue@2.5.16/dist/vue.js',
+      // 'js/vue-router.min.js', // 配合 copy-webpack-plugin 使用
     ])
   ].concat(
     // 打包分析
