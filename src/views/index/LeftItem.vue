@@ -53,7 +53,7 @@ export default {
 
 <style module>
 .itme {
-  padding: 8px 10px;
+  padding: 4px 10px;
   font-size: 14px;
   white-space: nowrap;
   color: #555;
