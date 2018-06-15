@@ -25,7 +25,7 @@ const api = {
   login (key) {
     return ajax.post('/login', {key}).then(() => {
       this.token = key
-      localStorage.setItem('token', key)
+      sessionStorage.setItem('token', key)
     })
   },
   list () {
@@ -58,7 +58,7 @@ const api = {
 }
 
 if (!api.token) {
-  api.token = localStorage.getItem('token')
+  api.token = sessionStorage.getItem('token')
 }
 
 export default api
