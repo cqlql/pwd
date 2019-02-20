@@ -1,7 +1,7 @@
 <template>
   <Popup :class="$style.popup" ref="vPopup" :initIsShow="initIsShow" :initMaskCloseEvent="false">
     <div :class="$style.tit">key</div>
-    <BaseText :class="$style.textInput" @keyupEnter="onKeyupEnter" @inputValue="onInputValue">hello</BaseText>
+    <BaseText :class="$style.textInput" @keyupEnter="onKeyupEnter" @inputValue="onInputValue" type="password">hello</BaseText>
   </Popup>
 </template>
 

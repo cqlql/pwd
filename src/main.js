@@ -38,10 +38,11 @@ new Vue({
   el: '#app',
   // router,
   // 根实例用可实现替换绑定的元素
-  template: '<app/>',
-  components: {
-    App
-  }
+  // template: '<app/>',
+  // components: {
+  //   App
+  // }
+  render: h => h(App)
 })
 
 // router.push({name: 'ConferenceCreate'})

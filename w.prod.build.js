@@ -58,7 +58,7 @@ const prodConfig = {
     ]),
     // 添加指定的 cdn 包。或者指定路径的包也行
     new ScriptPlugin([
-      'https://unpkg.com/vue@2.5.16/dist/vue.js',
+      'https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js',
       // 'js/vue-router.min.js', // 配合 copy-webpack-plugin 使用
     ])
   ].concat(
