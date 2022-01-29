@@ -71,12 +71,12 @@ export default {
       })
     },
     encrypt (content) {
-      return content.replace(/\${3}(.+?)\${3}/, function (o, r) {
+      return content.replace(/\${3}(.+?)\${3}/g, function (o, r) {
         return '$$$' + ajaxApi.encrypt(r) + '$$$'
       })
     },
     decrypt (content) {
-      return content.replace(/\${3}(.+?)\${3}/, function (o, r) {
+      return content.replace(/\${3}(.+?)\${3}/g, function (o, r) {
         return '$$$' + ajaxApi.decrypt(r) + '$$$'
       })
     },
