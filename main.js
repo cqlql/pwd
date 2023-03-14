@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, globalShortcut, ipcMain,ipcRenderer, BrowserWindow } = require("electron");
+const { app, ipcMain, BrowserWindow } = require("electron");
 const path = require("path");
 const router = require('./router')
 
@@ -7,9 +7,7 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      // nodeIntegration: true,
-      // contextIsolation: false,
+      preload: path.join(__dirname, "preload.js")
     },
   });
 
