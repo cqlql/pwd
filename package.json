@@ -1,5 +1,5 @@
 {
-  "name": "ElectronFiddleFile",
+  "name": "pwd-electron",
   "productName": "ElectronFiddleFile",
   "description": "My Electron application description",
   "keywords": [],
@@ -9,7 +9,6 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build",
-    "dist": "electron-builder"
   },
   "dependencies": {
     "crypto-js": "3.1.9-1",
