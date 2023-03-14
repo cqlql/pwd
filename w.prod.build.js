@@ -15,17 +15,17 @@ const isTest = argv['test'] === true // 有时候可能需要测试编译结果
 const webpackConfig = getWebpackConfig(__dirname)
 
 // 打包输出路径设置：
-let outputPath = path.resolve(__dirname, './dist')
+// let outputPath = path.resolve(__dirname, './dist')
 if (isTest) {
   // outputPath = path.resolve(__dirname, './dist')
 }
-// let outputPath = 'C:\\Users\\admin\\Desktop\\oa'
+let outputPath = 'D:\\_work\\_temp\\ElectronFiddleFile'
 
 const prodConfig = {
   // 不打包的模块
   // 键为 import 调用名，值为全局名称
   externals: {
-    'vue': 'Vue',
+    'vue': 'Vue'
     // 'vue-router': 'VueRouter'
   },
   output: {

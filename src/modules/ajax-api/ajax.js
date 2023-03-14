@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 import Vue from 'vue'
 
 class AjaxWeb {
@@ -17,7 +17,7 @@ class AjaxWeb {
   ajax ({url, method, data, params}) {
     let { loading, toast } = Vue
     loading.show()
-    return axios({
+    return window.electron.fetch({
       method,
       url,
       // baseURL: '/mock',
