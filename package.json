@@ -4,7 +4,7 @@
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "cql",
   "scripts": {
     "start": "electron .",
@@ -27,7 +27,7 @@
     }, 
     "win": {  
       "icon": "./res/logo.ico",
-      "target": "portable" 
+      "target": "nsis" 
     }  
   }
 }
